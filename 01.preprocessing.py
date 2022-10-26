@@ -1,7 +1,8 @@
 import math
+import copy
 import json
-import pandas as pd
 import string
+import pandas as pd
 from collections import Counter
 
 # import the yelp review dataset
@@ -9,7 +10,7 @@ data_file = open("yelp_dataset/yelp_academic_dataset_review.json")
 data = []
 stop_line = 0
 for line in data_file:
-  if stop_line == 100:
+  if stop_line == 1000:
     break
   else:
     data.append(json.loads(line)['text'])
@@ -26,6 +27,8 @@ def word_preprocessing(review):
 
   return review
 
+
+# Count word occurrence in a review
 def word_occurrence(review):
   # word occurrence
   split_word = review.split(" ")
@@ -38,12 +41,15 @@ def remove_stopwords(review):
   # https://countwordsfree.com/stopwords
   stopwords_data = open("helpers/stop_words_english.json")
   stopwords = json.load(stopwords_data)
+  rv = copy.copy(review)
 
   for st in stopwords:
-    del review[st]
+    del rv[st]
 
-  return review
+  return rv  
 
+
+# Term Frequency of words in a document
 def tf(review):
   tf_dict = dict()
   total = 0
@@ -55,6 +61,8 @@ def tf(review):
 
   return tf_dict
 
+
+# Inverse Document Frequency  of a word over all documents
 def idf(word):
   sub = 0
   for i in data:
@@ -66,21 +74,22 @@ def idf(word):
   return idf
 
 
+# TF-IDF values of a review
 def tf_idf(tf):
   tfidf = dict()
-  for key, val in tf:
-    tfidf[key] = float(val) * float(idf(key))
-  
+  for key in tf.keys():
+    tfidf[key] = tf[key]*idf(key) 
+
   return tfidf
 
 
-       
-
-
-lmeo = "If you decide to eat here, just be aware it is going to take about 2 hours from beginning to end. We have tried it multiple times, because I want to like it! I have been to it's other locations in NJ and never had a bad experience. \n\nThe food is good, but it takes a very long time to come out. The waitstaff is very young, but usually pleasant. We have just had too many experiences where we spent way too long waiting. We usually opt for another diner or restaurant on the weekends, in order to be done quicker"
-
-a = word_preprocessing(lmeo)
+# Take the first review
+a = word_preprocessing(data[0])
 b = word_occurrence(a)
+print("Word occurrence of important words in a sample")
+print(json.dumps(remove_stopwords(b), sort_keys=True, indent=2))
+
 c = tf(b)
 d = tf_idf(c)
-print(d)
+print("\nTF-IDF of the sample")
+print(json.dumps(d, sort_keys=True, indent=2))
