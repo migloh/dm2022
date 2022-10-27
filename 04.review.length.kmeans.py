@@ -1,19 +1,8 @@
-import json
 import random
+from helpers import yelp_review
 
-# import the yelp review dataset
-data_file = open("yelp_dataset/yelp_academic_dataset_review.json")
-data = []
-stop_line = 0
-for line in data_file:
-    if stop_line == 20:
-        break
-    else:
-        data.append(json.loads(line)['text'])
-        stop_line += 1
-data_file.close()
-
-dataset = list(map(len, data))
+review_data = yelp_review.review_list(20)
+dataset = list(map(len, review_data))
 
 
 class Cluster:
@@ -58,7 +47,8 @@ def kMeans(data, noClus):
         # print
         print("Iteration #", ite_count, sep=None)
         for cluster in clusters:
-            print(round(cluster.getCentroid()), cluster.getElements())
+            print("Centroid @", round(cluster.getCentroid()),
+                  cluster.getElements())
 
         # calculate new centroids
         new_centroids = [clusters[i].newCentroid() for i in range(noClus)]

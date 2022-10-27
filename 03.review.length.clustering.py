@@ -1,22 +1,11 @@
-import json
+from helpers import yelp_review
 
 # constant
 INF = 9999999999
 
-# import the yelp review dataset
-data_file = open("yelp_dataset/yelp_academic_dataset_review.json")
-data = []
-stop_line = 0
-for line in data_file:
-    if stop_line == 15:
-        break
-    else:
-        data.append(json.loads(line)['text'])
-        stop_line += 1
-data_file.close()
+review_data = yelp_review.review_list(15)
 
-
-len_dataset = list(map(len, data))
+len_dataset = list(map(len, review_data))
 
 
 def initClusters(reviews):
