@@ -16,11 +16,7 @@ for line in data_file:
 data_file.close()
 
 
-def review_len(n):
-    return len(n)
-
-
-len_dataset = list(map(review_len, data))
+len_dataset = list(map(len, data))
 
 
 def initClusters(reviews):
