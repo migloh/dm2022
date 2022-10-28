@@ -38,14 +38,13 @@ def kMeans(data, noClus):
         ite_count += 1
         # assign elements for each cluster
         for datapoint in data:
-            distance = [0 for i in range(noClus)]
-            for i in range(noClus):
-                distance[i] = abs(datapoint - clusters[i].getCentroid())
+            distance = [abs(datapoint - clusters[i].getCentroid())
+                        for i in range(noClus)]
             minIdx = distance.index(min(distance))
             clusters[minIdx].addElement(datapoint)
 
         # print
-        print("Iteration #", ite_count, sep=None)
+        print("Iteration #", ite_count)
         for cluster in clusters:
             print("Centroid @", round(cluster.getCentroid()),
                   cluster.getElements())
