@@ -1,7 +1,10 @@
 from helpers import yelp_review
+from random import randint, seed
 
-review_data = yelp_review.review_list(20)
-dataset = list(map(len, review_data))
+review_data = yelp_review.review_list(10000)
+# dataset = list(map(len, review_data))
+seed(1)
+dataset = [randint(1, 100) for i in range(100)]
 
 TAU = 0.00005
 mode_list = []
@@ -9,7 +12,7 @@ clusters = []
 
 
 def fKernel(x):
-    bandwidth = 50
+    bandwidth = 20
     return 1 if x <= bandwidth else 0
 
 
@@ -36,11 +39,11 @@ for mode in mode_list:
         clusters += [mode]
 
 print("Modes:", clusters)
-for clus in clusters:
-    arr = []
-    for datapoint in enumerate(dataset):
-        if mode_list[datapoint[0]] == clus:
-            arr.append(datapoint[1])
-        else:
-            continue
-    print(arr)
+# for clus in clusters:
+#     arr = []
+#     for datapoint in enumerate(dataset):
+#         if mode_list[datapoint[0]] == clus:
+#             arr.append(datapoint[1])
+#         else:
+#             continue
+#     print(arr)
