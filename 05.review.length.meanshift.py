@@ -1,5 +1,4 @@
 from helpers import yelp_review
-import math
 
 review_data = yelp_review.review_list(100)
 dataset = list(map(len, review_data))
