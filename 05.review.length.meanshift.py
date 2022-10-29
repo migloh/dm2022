@@ -1,10 +1,8 @@
 from helpers import yelp_review
-from random import randint, seed
+import math
 
-review_data = yelp_review.review_list(10000)
-# dataset = list(map(len, review_data))
-seed(1)
-dataset = [randint(1, 100) for i in range(100)]
+review_data = yelp_review.review_list(100)
+dataset = list(map(len, review_data))
 
 TAU = 0.00005
 mode_list = []
